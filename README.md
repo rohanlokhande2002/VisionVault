@@ -5,7 +5,7 @@
 
 ![Screenshot Placeholder](./screenshot.png)  <!-- Add your screenshot here -->
 
-## Features
+## Important Features
 
 - **Image Upload to S3**: Upload images to specific folders within an AWS S3 bucket.
 - **Folder Management**: Create new folders within the S3 bucket and upload content to them.
