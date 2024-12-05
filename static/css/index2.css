@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    padding-top: 60px; /* Add padding-top to body to prevent content from being hidden behind the fixed navbar */
+}
+
+.navbar {
+    background-color: #3C5B6F;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px 40px;
+    position: fixed; /* Make the navbar fixed at the top */
+    width: 95%; /* Set the width to 100% of the viewport */
+    top: 0; /* Position the navbar at the top of the viewport */
+    z-index: 1000; /* Ensure the navbar stays on top of other content */
+}
+
+.logo {
+    width: 50px;
+    margin-right: auto;
+}
+
+.navbar-links {
+    margin-left: auto;
+}
+
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}

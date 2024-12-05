@@ -1,0 +1,294 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Processing</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./static/css/index2.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            /* #f8f9fa8a; */
+            font-family: Arial, serif;
+            background-color: #f0f2f4f4;
+            margin-top: 150px;
+        }
+
+
+        .navbar {
+            /* background-color: #3C5B6F; */
+           background-color: #007bff;
+            color: #fff;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            padding: 10px 40px;
+            position: fixed; /* Make the navbar fixed at the top */
+            width: 100%; /* Set the width to 100% of the viewport */
+            top: 0; /* Position the navbar at the top of the viewport */
+            z-index: 1000; /* Ensure the navbar stays on top of other content */
+        }
+
+        .logo {
+            width: 50px;
+            margin-right: auto;
+        }
+
+        .navbar-links {
+            margin-left: auto;
+        }
+
+        .navbar-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        #h1font{
+            font-family: sans-serif;
+            color:#969a9ef9;
+        }
+        .container{
+            margin-top: 10px;
+        }
+        .container-1 {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-wrapper {
+            margin-top: 20px;
+        }
+
+        .image-container {
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: calc(33.33% - 25px);
+            margin-right: 20px;
+            vertical-align: top;
+        }
+
+        .image-container img {
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: auto;
+        }
+
+        .image-container:hover img {
+            /* transform: scale(1.1); */
+        }
+
+        .download-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .download-buttons {
+            flex-basis: 48%;
+        }
+
+        form{
+            margin: 20px;
+        }
+
+        input.largerCheckbox {
+			width: 300px;
+			height: 20px;
+		}
+        
+        #img-space{
+            margin-bottom: 5px;
+        }
+        .custom-file-input::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+        .custom-file-input::before {
+            content: 'Choose File';
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-align: center;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        .custom-file-input:hover::before {
+            background: #0056b3;
+        }
+        .custom-file-input:active::before {
+            background: #0056b3;
+        }
+
+        /* Custom style for new-folder-input */
+        #new-folder-input::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+        #new-folder-input::before {
+            content: 'Choose Folder';
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-align: center;
+            margin-right: 10px;
+            border-radius: 4px;
+        }
+        #new-folder-input:hover::before {
+            background: #0056b3;
+        }
+        #new-folder-input:active::before {
+            background: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .image-container {
+                width: calc(50% - 20px);
+                margin-right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container-1 {
+                padding: 10px;
+            }
+            .image-container {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Your navigation bar goes here -->
+    {% include 'navbar.html' %}
+    <div class="container">
+        <div class="container-1">
+            <h1 id="h1font" class="text-center mb-4" > <b>Discover Visuals</b></h1>
+            <form action="/find_similar_images" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <select name="selected_folder" class="form-control" required>
+                        <option value="" disabled selected>Select Folder</option>
+                        <!-- Your folder options go here -->
+                        {% for folder in folders %}
+                            <option value="{{ folder }}">{{ folder }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="image" class="custom-file-input" id="customFile" accept="image/*" required>
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block"> <b>Find Similar</b> </button>
+            </form>
+
+            <form id="create-folder-form" action="/create_folder_and_upload_to_s3" method="POST" enctype="multipart/form-data">
+                <div class="form-row">
+                    <div class="col">
+                        <input id="new-folder-input" type="text" name="new_folder_name" class="form-control" placeholder="Enter Folder Name" required>
+                    </div>
+                    <div class="col-auto">
+                        <button id="create-folder-btn" type="submit" class="btn btn-primary"> <b>Create Folder in S3</b> </button>
+                    </div>
+                </div>
+            </form>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div id="flash-message" class="alert alert-success" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            {% if 'folder_created' in session %}
+            <form id="upload-content-form" action="/upload_content_to_s3" method="POST" enctype="multipart/form-data" style="display: none;">
+                <div class="form-group">
+                    <input type="file"  name="folder_content" class="form-control-file" directory="" webkitdirectory="" mozdirectory="" required>
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block"> <b>Upload Content to S3</b> </button>
+            </form>
+            {% endif %}
+        </div>
+
+
+
+            <form action="/download_all_images" method="POST">
+                <button type="submit" name="action" value="all" class="btn btn-primary btn-block"> <b> Download All Images</b> </button>
+            </form>
+                
+
+            <form action="/download_images" method="POST">
+                <button type="submit"  class="btn btn-primary btn-block"> <b>Download Selected Images</b></button>
+                <div class="images">
+                    {% if image_urls %}
+                        {% for url in image_urls %}
+                            <div class="image-container">
+                                <input type="checkbox" name="selected_images" value="{{ url }}">
+                                <img src="{{ url }}" alt="Similar Image" height="300" width="400">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+
+    </div>
+    <!-- Bootstrap JS and jQuery (Optional, if needed) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+     document.getElementById('create-folder-btn').addEventListener('click', function() {
+        // Show the upload content form
+        document.getElementById('upload-content-form').style.display = 'block';
+
+        // Submit the form asynchronously
+        // document.getElementById('create-folder-btn').submit();
+    });
+
+    // When the "Upload Content to S3" form is submitted
+    document.getElementById('upload-content-form').addEventListener('submit', function() {
+        // Hide the upload content form
+        document.getElementById('upload-content-form').style.display = 'none';
+    });
+
+    setTimeout(function() {
+        var alertMessages = document.querySelectorAll('.alert');
+        if (alertMessages) {
+            alertMessages.forEach(function(alertMessage) {
+                alertMessage.style.display = 'none';
+            });
+        }
+    }, 1000); 
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,91 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin-top: 0;
+    background-color: #f0f2f4f4;;
+    padding: 0;
+    /* padding-top: 60px; Add padding-top to body to prevent content from being hidden behind the fixed navbar */
+}
+
+.navbar {
+    background-color:#007bff;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px 40px;
+    position: fixed; /* Make the navbar fixed at the top */
+    width: 100%; /* Set the width to 100% of the viewport */
+    top: 0; /* Position the navbar at the top of the viewport */
+    z-index: 1000; /* Ensure the navbar stays on top of other content */
+}
+
+.logo {
+    width: 50px;
+    margin-right: auto;
+}
+
+.navbar-links {
+    margin-left: auto;
+}
+
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 20px;
+}
+.carousel-container-top{
+    align-content: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 100px auto 50px; /* Add margin-top to push content below the fixed navbar */
+    text-align: center;
+}
+
+
+/* .carousel-container {
+    margin-top: 10px;
+    padding: 10px;
+    width: 80%;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+
+/* .carousel-inner .carousel-item img {
+    width: 100%; /* Make the images fill the entire width of the carousel */
+    /* height: auto; Maintain aspect ratio */
+/* } */
+
+/* .carousel-caption {
+    font-size: 24px; /* Adjust the font size of the caption text */
+/* } */
+
+
+.carousel-container{
+    margin-top: 100px;
+    padding: 10%;
+    width: 65%;
+    height: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    justify-content: center;
+    align-content: center;
+
+}
+
+.about_devs{
+    align-content: center;
+    
+}
+
+.card{
+    background-color: rgb(8, 53, 255);
+    margin-top: 20px;
+
+}
